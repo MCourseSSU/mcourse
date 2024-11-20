@@ -9,11 +9,21 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "file", "file", "{0A0FFBAB-9
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{7D29C003-47D7-4F34-9FF7-E9215B270286}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MCourse.File.Domain", "services\file\src\MCourse.File.Domain\MCourse.File.Domain.csproj", "{BF72F07D-10E0-4DCB-8172-2F2FCD2A1B90}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MCourse.File.Domain", "services\file\src\MCourse.File.Domain\MCourse.File.Domain.csproj", "{BF72F07D-10E0-4DCB-8172-2F2FCD2A1B90}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MCourse.File.Application", "services\file\src\MCourse.File.Application\MCourse.File.Application.csproj", "{B6330F58-6051-4A5A-A11F-D045073CB76B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MCourse.File.Application", "services\file\src\MCourse.File.Application\MCourse.File.Application.csproj", "{B6330F58-6051-4A5A-A11F-D045073CB76B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MCourse.File.Application.Contracts", "services\file\src\MCourse.File.Application.Contracts\MCourse.File.Application.Contracts.csproj", "{73584460-8749-46FA-B669-E692A59022EB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MCourse.File.Application.Contracts", "services\file\src\MCourse.File.Application.Contracts\MCourse.File.Application.Contracts.csproj", "{73584460-8749-46FA-B669-E692A59022EB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "modules", "modules", "{C15EC419-B125-438B-8865-94ABF7C08534}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "minio", "minio", "{0008D37D-A9D4-4F94-A785-80C4B1FA00A5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{462B9765-264D-44C5-AF14-6B76A189271C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniO.Application", "modules\minio\src\MiniO.Application\MiniO.Application.csproj", "{B6ED0029-E6B4-48BB-BF9B-C1B3FF4EE75E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniO.Application.Contracts", "modules\minio\src\MiniO.Application.Contracts\MiniO.Application.Contracts.csproj", "{C17EF84F-2624-4541-99B8-601FB5AA65F0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +43,14 @@ Global
 		{73584460-8749-46FA-B669-E692A59022EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{73584460-8749-46FA-B669-E692A59022EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{73584460-8749-46FA-B669-E692A59022EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B6ED0029-E6B4-48BB-BF9B-C1B3FF4EE75E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6ED0029-E6B4-48BB-BF9B-C1B3FF4EE75E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6ED0029-E6B4-48BB-BF9B-C1B3FF4EE75E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6ED0029-E6B4-48BB-BF9B-C1B3FF4EE75E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C17EF84F-2624-4541-99B8-601FB5AA65F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C17EF84F-2624-4541-99B8-601FB5AA65F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C17EF84F-2624-4541-99B8-601FB5AA65F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C17EF84F-2624-4541-99B8-601FB5AA65F0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -43,6 +61,10 @@ Global
 		{BF72F07D-10E0-4DCB-8172-2F2FCD2A1B90} = {7D29C003-47D7-4F34-9FF7-E9215B270286}
 		{B6330F58-6051-4A5A-A11F-D045073CB76B} = {7D29C003-47D7-4F34-9FF7-E9215B270286}
 		{73584460-8749-46FA-B669-E692A59022EB} = {7D29C003-47D7-4F34-9FF7-E9215B270286}
+		{0008D37D-A9D4-4F94-A785-80C4B1FA00A5} = {C15EC419-B125-438B-8865-94ABF7C08534}
+		{462B9765-264D-44C5-AF14-6B76A189271C} = {0008D37D-A9D4-4F94-A785-80C4B1FA00A5}
+		{B6ED0029-E6B4-48BB-BF9B-C1B3FF4EE75E} = {462B9765-264D-44C5-AF14-6B76A189271C}
+		{C17EF84F-2624-4541-99B8-601FB5AA65F0} = {462B9765-264D-44C5-AF14-6B76A189271C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F8C55A77-32AB-430A-893E-7A519AE05CA5}
