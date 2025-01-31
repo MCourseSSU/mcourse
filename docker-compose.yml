@@ -1,0 +1,26 @@
+version: '3.4'
+
+services:
+  mcourse-mssql:
+    container_name: mssql
+    image: mcr.microsoft.com/mssql/server:latest
+    ports:
+      - 1433:1433
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_USER=sa
+      - SA_PASSWORD=Secret1_
+      - MSSQL_PID=Express
+    volumes:
+      - ../volumes/mssql/wallone:/src/mssql
+#  minio:
+#    image: minio/minio:latest
+#    command: server --console-address ":9001" /data/
+#    ports:
+#      - "9000:9000"
+#      - "9001:9001"
+#    environment:
+#      MINIO_ROOT_USER: admin
+#      MINIO_ROOT_PASSWORD: admin
+#    volumes:
+#      - ../volumes/minio:/data
