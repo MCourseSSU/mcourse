@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\shared\Shared.EntityFrameworkCore\Shared.EntityFrameworkCore.csproj" />
     <ProjectReference Include="..\Course.Domain\Course.Domain.csproj" />
   </ItemGroup>
 

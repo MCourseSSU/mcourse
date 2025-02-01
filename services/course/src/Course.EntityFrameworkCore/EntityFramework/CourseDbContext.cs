@@ -1,27 +1,22 @@
-﻿using Course.Domain;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
-namespace Course.EntityFrameworkCore.EntityFramework
+namespace Course.EntityFrameworkCore.EntityFramework;
+
+using Course.Domain.Courses;
+
+public sealed class CourseDbContext : DbContext
 {
-	public sealed class CourseDbContext : DbContext
+	public DbSet<Course> Courses { get; private set; }
+
+	public CourseDbContext(DbContextOptions<CourseDbContext> options)
+		: base (options)
 	{
-		private readonly IConfiguration _configuration;
 
-		public DbSet<Domain.Courses.Course> Courses { get; }
+	}
 
-		public CourseDbContext(
-			DbContextOptions<CourseDbContext> options,
-			IConfiguration configuration)
-			: base (options)
-		{
-			_configuration = configuration;
-		}
-
-		protected override void OnModelCreating(ModelBuilder modelBuilder)
-		{
-			modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-		}
+	protected override void OnModelCreating(ModelBuilder modelBuilder)
+	{
+		modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 	}
 }

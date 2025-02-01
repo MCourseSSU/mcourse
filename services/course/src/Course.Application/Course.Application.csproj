@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Course.Application.Contracts\Course.Application.Contracts.csproj" />
     <ProjectReference Include="..\Course.EntityFrameworkCore\Course.EntityFrameworkCore.csproj" />
   </ItemGroup>

@@ -13,18 +13,16 @@ namespace Course.EntityFrameworkCore
 		public static IServiceCollection AddEntityFrameworkCore(this IServiceCollection services, IConfiguration configuration)
 		{
 			services.AddDbContext<CourseDbContext>(options =>
-				options.UseSqlServer(configuration[CourseDbProperties.ConnectionString]));
+				options.UseSqlServer(configuration.GetConnectionString(CourseDbProperties.ConnectionString)));
 
 			AddRepository(services);
 
 			return services;
 		}
 
-		private static IServiceCollection AddRepository(IServiceCollection services)
+		private static void AddRepository(IServiceCollection services)
 		{
 			services.AddScoped<ICourseRepository, CourseRepository>();
-
-			return services;
 		}
 	}
 }

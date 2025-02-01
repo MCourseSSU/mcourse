@@ -11,17 +11,25 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{564A9981-A5C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Course.Domain", "services\course\src\Course.Domain\Course.Domain.csproj", "{4C3D29AD-A3C5-46C2-805A-0903F1427C23}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Course.EntityFrameworkCore", "services\course\src\Course.EntityFrameworkCore\Course.EntityFrameworkCore.csproj", "{F8958EC0-14C9-4C57-A79F-3BC4F31F285C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Course.EntityFrameworkCore", "services\course\src\Course.EntityFrameworkCore\Course.EntityFrameworkCore.csproj", "{F8958EC0-14C9-4C57-A79F-3BC4F31F285C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "apps", "apps", "{98F53ACE-2BCB-43AA-82DF-84BC22EC7611}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Course.HttpApi.Host", "services\course\apps\Course.HttpApi.Host\Course.HttpApi.Host.csproj", "{5049F88B-212C-4896-B7E6-16DA86A18BE6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Course.HttpApi.Host", "services\course\apps\Course.HttpApi.Host\Course.HttpApi.Host.csproj", "{5049F88B-212C-4896-B7E6-16DA86A18BE6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Course.Application.Contracts", "services\course\src\Course.Application.Contracts\Course.Application.Contracts.csproj", "{4D2D5E81-D7BB-4EED-8748-D0E96A956D42}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Course.Application.Contracts", "services\course\src\Course.Application.Contracts\Course.Application.Contracts.csproj", "{4D2D5E81-D7BB-4EED-8748-D0E96A956D42}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Course.Application", "services\course\src\Course.Application\Course.Application.csproj", "{7A13990E-D0B2-4A92-8B22-DA8BD90FED83}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Course.Application", "services\course\src\Course.Application\Course.Application.csproj", "{7A13990E-D0B2-4A92-8B22-DA8BD90FED83}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Course.Domain.Shared", "services\course\src\Course.Domain.Shared\Course.Domain.Shared.csproj", "{510A078D-3117-4984-98F0-3328322D1AE2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Course.Domain.Shared", "services\course\src\Course.Domain.Shared\Course.Domain.Shared.csproj", "{510A078D-3117-4984-98F0-3328322D1AE2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "shared", "shared", "{1AF01836-08D4-4FD7-BEB2-73886B3E0714}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared.Domain", "services\shared\Shared.Domain\Shared.Domain.csproj", "{AD428C06-ACCC-465E-8B29-EB2F526FD2CD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared.Contracts", "services\shared\Shared.Contracts\Shared.Contracts.csproj", "{08B6D9AD-CCEA-4341-9D0C-C74D9AC90500}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared.EntityFrameworkCore", "services\shared\Shared.EntityFrameworkCore\Shared.EntityFrameworkCore.csproj", "{28F66BF4-E781-4394-A8E5-D8D1B1A9A3A2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,6 +61,18 @@ Global
 		{510A078D-3117-4984-98F0-3328322D1AE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{510A078D-3117-4984-98F0-3328322D1AE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{510A078D-3117-4984-98F0-3328322D1AE2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD428C06-ACCC-465E-8B29-EB2F526FD2CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD428C06-ACCC-465E-8B29-EB2F526FD2CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD428C06-ACCC-465E-8B29-EB2F526FD2CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD428C06-ACCC-465E-8B29-EB2F526FD2CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{08B6D9AD-CCEA-4341-9D0C-C74D9AC90500}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08B6D9AD-CCEA-4341-9D0C-C74D9AC90500}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08B6D9AD-CCEA-4341-9D0C-C74D9AC90500}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08B6D9AD-CCEA-4341-9D0C-C74D9AC90500}.Release|Any CPU.Build.0 = Release|Any CPU
+		{28F66BF4-E781-4394-A8E5-D8D1B1A9A3A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28F66BF4-E781-4394-A8E5-D8D1B1A9A3A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28F66BF4-E781-4394-A8E5-D8D1B1A9A3A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28F66BF4-E781-4394-A8E5-D8D1B1A9A3A2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -67,6 +87,10 @@ Global
 		{4D2D5E81-D7BB-4EED-8748-D0E96A956D42} = {564A9981-A5C2-4C4E-96D9-5454C2C2EFE6}
 		{7A13990E-D0B2-4A92-8B22-DA8BD90FED83} = {564A9981-A5C2-4C4E-96D9-5454C2C2EFE6}
 		{510A078D-3117-4984-98F0-3328322D1AE2} = {564A9981-A5C2-4C4E-96D9-5454C2C2EFE6}
+		{1AF01836-08D4-4FD7-BEB2-73886B3E0714} = {3376189F-12A0-4DA2-AFD6-5E2795E148A3}
+		{AD428C06-ACCC-465E-8B29-EB2F526FD2CD} = {1AF01836-08D4-4FD7-BEB2-73886B3E0714}
+		{08B6D9AD-CCEA-4341-9D0C-C74D9AC90500} = {1AF01836-08D4-4FD7-BEB2-73886B3E0714}
+		{28F66BF4-E781-4394-A8E5-D8D1B1A9A3A2} = {1AF01836-08D4-4FD7-BEB2-73886B3E0714}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F8C55A77-32AB-430A-893E-7A519AE05CA5}
