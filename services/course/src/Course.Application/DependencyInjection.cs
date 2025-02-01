@@ -31,7 +31,8 @@ namespace Course.Application
 		{
 			services.AddFluentValidationAutoValidation();
 
-			services.AddScoped<IValidator<PagedListRequest>,PageListRequestValidator>();
+			services.AddScoped<IValidator<PagedListRequest>, PageListRequestValidator>();
+			services.AddScoped<IValidator<CreateCourseRequest>, CreateCourseRequestValidator>();
 		}
 	}
 }

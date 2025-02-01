@@ -10,5 +10,6 @@ public sealed class CourseAutoMapperProfile : Profile
 	public CourseAutoMapperProfile()
 	{
 		CreateMap<Course, CourseListDto>();
+		CreateMap<Course, CourseDto>();
 	}
 }

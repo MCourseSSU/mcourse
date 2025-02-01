@@ -61,9 +61,9 @@ internal sealed class CourseRepository : ICourseRepository
 		}
 	}
 
-	public void SaveChangesAsync(CancellationToken cancellationToken = default)
+	public async Task SaveChangesAsync(CancellationToken cancellationToken = default)
 	{
-		_context.SaveChangesAsync(cancellationToken);
+		await _context.SaveChangesAsync(cancellationToken);
 	}
 
 	public async Task<Course> UpdateAsync(Course entity, bool autoSave = false, CancellationToken cancellationToken = default)

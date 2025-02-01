@@ -8,6 +8,6 @@
 		Task<TEntity> GetAsync(TKey id, CancellationToken cancellationToken = default);
 		Task<TEntity> UpdateAsync(TEntity entity, bool autoSave = false, CancellationToken cancellationToken = default);
 		Task RemoveAsync(TEntity entity, bool autoSave = false, CancellationToken cancellationToken = default);
-		void SaveChangesAsync(CancellationToken cancellationToken = default);
+		Task SaveChangesAsync(CancellationToken cancellationToken = default);
 	}
 }

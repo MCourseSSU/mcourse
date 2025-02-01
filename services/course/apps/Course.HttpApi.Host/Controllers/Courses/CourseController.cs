@@ -13,12 +13,25 @@ namespace Course.HttpApi.Host.Controllers.Courses
 	{
 		private readonly ICourseService _courseService;
 		private readonly IValidator<PagedListRequest> _pagedListRequestValidator;
+		private readonly IValidator<CreateCourseRequest> _createCourseRequestValidator;
+
 		public CourseController(
 			ICourseService courseService,
-			IValidator<PagedListRequest> pagedListRequestValidator)
+			IValidator<PagedListRequest> pagedListRequestValidator,
+			IValidator<CreateCourseRequest> createCourseRequestValidator)
 		{
 			_courseService = courseService;
 			_pagedListRequestValidator = pagedListRequestValidator;
+			_createCourseRequestValidator = createCourseRequestValidator;
+		}
+
+		[HttpPost]
+		public async Task<CourseDto> CreateCourseAsync(
+			[FromBody] CreateCourseRequest request,
+			CancellationToken cancellationToken)
+		{
+			await _createCourseRequestValidator.ValidateAndThrowAsync(request, cancellationToken);
+			return await _courseService.CreateCourseAsync(request, cancellationToken);
 		}
 
 		[HttpGet("List")]
