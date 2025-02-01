@@ -1,4 +1,4 @@
-﻿namespace Shared.Contracts.Contracts.Dto
+﻿namespace Shared.Application.Contracts.Contracts.Dto
 {
 	public sealed class PagedResultDto<TEntity>
 	{

@@ -6,6 +6,7 @@ namespace Course.Domain.Courses
 {
 	public interface ICourseRepository : IBaseRepository<Course, Guid>
 	{
+		Task<bool> CheckCourseForExistenceAsync(string title, CancellationToken cancellationToken);
 		Task<PagedResult<Course>> GetPagedListAsync(
 			int pageNumber = CourseConstants.PageNumber,
 			int pageSize = CourseConstants.PageSize,

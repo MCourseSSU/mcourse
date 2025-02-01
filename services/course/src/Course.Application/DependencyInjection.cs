@@ -6,6 +6,7 @@ using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Shared.Application;
 
 namespace Course.Application
 {
@@ -14,6 +15,7 @@ namespace Course.Application
 		public static IServiceCollection AddApplication(this IServiceCollection services, IConfiguration configuration)
 		{
 			services.AddEntityFrameworkCore(configuration);
+			services.AddSharedApplication();
 			services.AddAutoMapper(typeof(CourseAutoMapperProfile));
 
 			AddServices(services);

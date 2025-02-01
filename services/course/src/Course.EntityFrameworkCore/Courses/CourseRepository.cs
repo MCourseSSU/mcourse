@@ -16,6 +16,11 @@ internal sealed class CourseRepository : ICourseRepository
 		_context = context;
 	}
 
+	public async Task<bool> CheckCourseForExistenceAsync(string title, CancellationToken cancellationToken)
+	{
+		return await _context.Courses.AnyAsync(x => x.Title == title);
+	}
+
 	public async Task<Course?> GetAsync(Guid id, CancellationToken cancellationToken = default)
 	{
 		return await _context.Courses

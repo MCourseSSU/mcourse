@@ -1,6 +1,6 @@
 ﻿using Course.Application.Contracts.Courses.Dto;
 using Course.Application.Contracts.Courses.Requests;
-using Shared.Contracts.Contracts.Dto;
+using Shared.Application.Contracts.Contracts.Dto;
 
 namespace Course.Application.Contracts.Courses
 {

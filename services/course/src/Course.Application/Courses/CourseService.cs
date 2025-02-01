@@ -2,7 +2,8 @@
 using Course.Application.Contracts.Courses;
 using Course.Application.Contracts.Courses.Dto;
 using Course.Application.Contracts.Courses.Requests;
-using Shared.Contracts.Contracts.Dto;
+using Shared.Application.Contracts.Contracts;
+using Shared.Application.Contracts.Contracts.Dto;
 
 namespace Course.Application.Courses;
 
@@ -12,20 +13,30 @@ internal sealed class CourseService : ICourseService
 {
 	private readonly ICourseRepository _courseRepository;
 	private readonly IMapper _mapper;
+	private readonly IGuidGenerator _guidGenerator;
 
 	public CourseService(
 		ICourseRepository courseRepository,
-		IMapper mapper)
+		IMapper mapper,
+		IGuidGenerator guidGenerator)
 	{
 		_courseRepository = courseRepository;
 		_mapper = mapper;
+		_guidGenerator = guidGenerator;
 	}
 
 	public async Task<CourseDto> CreateCourseAsync(CreateCourseRequest request, CancellationToken cancellationToken)
 	{
+		var isExist = await _courseRepository.CheckCourseForExistenceAsync(request.Title, cancellationToken);
+
+		if (isExist)
+		{
+			// TODO: Добавить результирующий объект
+			return null;
+		}
+
 		var course = new Course(
-			// TODO: Заменить на guidService.
-			id: Guid.NewGuid(),
+			id: _guidGenerator.Create(),
 			title: request.Title,
 			description: request.Description);
 
