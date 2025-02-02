@@ -15,5 +15,13 @@
 			Title = title;
 			Description = description;
 		}
+
+		public Course Update(
+			string? description)
+		{
+			Description = description;
+
+			return this;
+		}
 	}
 }

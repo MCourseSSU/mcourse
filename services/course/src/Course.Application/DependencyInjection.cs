@@ -8,33 +8,33 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Shared.Application;
 
-namespace Course.Application
+namespace Course.Application;
+
+public static class DependencyInjection
 {
-	public static class DependencyInjection
+	public static IServiceCollection AddApplication(this IServiceCollection services, IConfiguration configuration)
 	{
-		public static IServiceCollection AddApplication(this IServiceCollection services, IConfiguration configuration)
-		{
-			services.AddEntityFrameworkCore(configuration);
-			services.AddSharedApplication();
-			services.AddAutoMapper(typeof(CourseAutoMapperProfile));
+		services.AddEntityFrameworkCore(configuration);
+		services.AddSharedApplication();
+		services.AddAutoMapper(typeof(CourseAutoMapperProfile));
 
-			AddServices(services);
-			AddValidators(services);
+		AddServices(services);
+		AddValidators(services);
 
-			return services;
-		}
+		return services;
+	}
 
-		private static void AddServices(IServiceCollection services)
-		{
-			services.AddScoped<ICourseService, CourseService>();
-		}
+	private static void AddServices(IServiceCollection services)
+	{
+		services.AddScoped<ICourseService, CourseService>();
+	}
 
-		private static void AddValidators(IServiceCollection services)
-		{
-			services.AddFluentValidationAutoValidation();
+	private static void AddValidators(IServiceCollection services)
+	{
+		services.AddFluentValidationAutoValidation();
 
-			services.AddScoped<IValidator<PagedListRequest>, PageListRequestValidator>();
-			services.AddScoped<IValidator<CreateCourseRequest>, CreateCourseRequestValidator>();
-		}
+		services.AddScoped<IValidator<PagedListRequest>, PageListRequestValidator>();
+		services.AddScoped<IValidator<CreateCourseRequest>, CreateCourseRequestValidator>();
+		services.AddScoped<IValidator<UpdateCourseRequest>, UpdateCourseRequestValidator>();
 	}
 }

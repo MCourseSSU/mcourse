@@ -3,20 +3,16 @@ using FluentValidation;
 
 namespace Course.Application.Contracts.Courses.Requests;
 
-public sealed class CreateCourseRequest
+public sealed class UpdateCourseRequest
 {
-	public required string Title { get; init; }
+	public required Guid Id { get; init; }
 	public string? Description { get; init; }
 }
 
-public sealed class CreateCourseRequestValidator : AbstractValidator<CreateCourseRequest>
+public sealed class UpdateCourseRequestValidator : AbstractValidator<UpdateCourseRequest>
 {
-	public CreateCourseRequestValidator()
+	public UpdateCourseRequestValidator()
 	{
-		RuleFor(x => x.Title)
-			.NotEmpty()
-			.MaximumLength(CourseConstants.MaxTitleLength)
-			.WithMessage($"Максимальная длина названия курса {CourseConstants.MaxTitleLength} символов");
 		RuleFor(x => x.Description)
 			.MaximumLength(CourseConstants.MaxDescriptionLength)
 			.When(x => !string.IsNullOrEmpty(x.Description))

@@ -25,14 +25,13 @@ internal sealed class CourseService : ICourseService
 		_guidGenerator = guidGenerator;
 	}
 
-	public async Task<CourseDto> CreateCourseAsync(CreateCourseRequest request, CancellationToken cancellationToken)
+	public async Task<Result<CourseDto>> CreateAsync(CreateCourseRequest request, CancellationToken cancellationToken)
 	{
 		var isExist = await _courseRepository.CheckCourseForExistenceAsync(request.Title, cancellationToken);
 
 		if (isExist)
 		{
-			// TODO: Добавить результирующий объект
-			return null;
+			return new Result<CourseDto>(errorMessage: $"Данный курс уже зарегистрирован");
 		}
 
 		var course = new Course(
@@ -47,10 +46,42 @@ internal sealed class CourseService : ICourseService
 
 		// TODO: откинуть событие об уведомлении о успешном создании курса.
 
-		return _mapper.Map<CourseDto>(course);
+		return new Result<CourseDto>(
+			data: _mapper.Map<CourseDto>(course));
 	}
 
-	public async Task<PagedResultDto<CourseListDto>> GetListAsync(PagedListRequest request, CancellationToken cancellationToken)
+	public async Task<Result> DeleteAsync(Guid id, CancellationToken cancellationToken)
+	{
+		var course = await _courseRepository.GetAsync(id, cancellationToken);
+
+		if (course is null)
+		{
+			return new Result(errorMessage: "Курс не найден");
+		}
+
+		await _courseRepository.RemoveAsync(
+			entity: course,
+			autoSave: true, 
+			cancellationToken: cancellationToken);
+
+		return new Result();
+	}
+
+	public async Task<Result<CourseDto>> GetAsync(Guid id, CancellationToken cancellationToken)
+	{
+		var course = await _courseRepository.GetAsync(id, cancellationToken);
+
+		if (course is null )
+		{
+			return new Result<CourseDto>(errorMessage: "Курс не найден");
+		}
+
+		return new Result<CourseDto>(
+			data: _mapper.Map<CourseDto>(course));
+
+	}
+
+	public async Task<Result<PagedResultDto<CourseListDto>>> GetListAsync(PagedListRequest request, CancellationToken cancellationToken)
 	{
 		var pagedResult = await _courseRepository.GetPagedListAsync(
 			pageNumber: request.PageNumber,
@@ -59,10 +90,33 @@ internal sealed class CourseService : ICourseService
 
 		var courseListDto = _mapper.Map<IReadOnlyCollection<CourseListDto>>(pagedResult.Items);
 
-		return new PagedResultDto<CourseListDto>
+		var pagedResultDto = new PagedResultDto<CourseListDto>
 		{
 			Items = courseListDto,
 			TotalCount = pagedResult.TotalCount
 		};
+
+		return new Result<PagedResultDto<CourseListDto>>(data: pagedResultDto);
+	}
+
+	public async Task<Result<CourseDto>> UpdateAsync(UpdateCourseRequest request, CancellationToken cancellationToken)
+	{
+		var course = await _courseRepository.GetAsync(request.Id, cancellationToken);
+
+		if (course is null)
+		{
+			return new Result<CourseDto>(errorMessage: $"Курс не найден");
+		}
+
+		course.Update(
+			description: request.Description);
+
+		await _courseRepository.UpdateAsync(
+			entity: course,
+			autoSave: true,
+			cancellationToken: cancellationToken);
+
+		return new Result<CourseDto>(
+			data: _mapper.Map<CourseDto>(course));
 	}
 }
