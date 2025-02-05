@@ -14,15 +14,17 @@ internal sealed class CourseService : ICourseService
 	private readonly ICourseRepository _courseRepository;
 	private readonly IMapper _mapper;
 	private readonly IGuidGenerator _guidGenerator;
-
+	private readonly IClockService _clockService;
 	public CourseService(
 		ICourseRepository courseRepository,
 		IMapper mapper,
-		IGuidGenerator guidGenerator)
+		IGuidGenerator guidGenerator,
+		IClockService clockService)
 	{
 		_courseRepository = courseRepository;
 		_mapper = mapper;
 		_guidGenerator = guidGenerator;
+		_clockService = clockService;
 	}
 
 	public async Task<Result<CourseDto>> CreateAsync(CreateCourseRequest request, CancellationToken cancellationToken)
@@ -31,12 +33,14 @@ internal sealed class CourseService : ICourseService
 
 		if (isExist)
 		{
-			return new Result<CourseDto>(errorMessage: $"Данный курс уже зарегистрирован");
+			return new Result<CourseDto>(errorMessage: $"Курс с таким названием уже существует");
 		}
 
 		var course = new Course(
 			id: _guidGenerator.Create(),
 			title: request.Title,
+			creationTime: _clockService.Now(),
+			creatorId: _guidGenerator.Create(), // TODO: Mock, удалить при создании сервиса авторизации
 			description: request.Description);
 
 		await _courseRepository.InsertAsync(
@@ -78,7 +82,6 @@ internal sealed class CourseService : ICourseService
 
 		return new Result<CourseDto>(
 			data: _mapper.Map<CourseDto>(course));
-
 	}
 
 	public async Task<Result<PagedResultDto<CourseListDto>>> GetListAsync(PagedListRequest request, CancellationToken cancellationToken)
@@ -109,7 +112,8 @@ internal sealed class CourseService : ICourseService
 		}
 
 		course.Update(
-			description: request.Description);
+			description: request.Description,
+			updatedTime: _clockService.Now());
 
 		await _courseRepository.UpdateAsync(
 			entity: course,
