@@ -1,15 +1,15 @@
 ﻿using Course.Domain.Shared.Courses;
 using FluentValidation;
 
-namespace Course.Application.Contracts.Courses.Requests;
+namespace Course.Application.Contracts.Courses.Commands;
 
-public sealed class PagedListRequest
+public sealed class PagedListCommand
 {
 	public required int PageNumber { get; init; }
 	public required int PageSize { get; init; }
 }
 
-public sealed class PageListRequestValidator : AbstractValidator<PagedListRequest>
+public sealed class PageListRequestValidator : AbstractValidator<PagedListCommand>
 {
 	public PageListRequestValidator()
 	{

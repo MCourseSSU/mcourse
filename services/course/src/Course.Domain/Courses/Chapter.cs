@@ -15,5 +15,13 @@
 			CourseId = courseId;
 			Title = title;
 		}
+
+		public Chapter Update(
+			string title)
+		{
+			Title = title;
+
+			return this;
+		}
 	}
 }

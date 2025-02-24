@@ -1,5 +1,4 @@
 ﻿using Shared.Domain.Entities;
-using System.Collections.Immutable;
 
 namespace Course.Domain.Courses
 {
@@ -7,7 +6,7 @@ namespace Course.Domain.Courses
 	{
 		public string Title { get; private set; }
 		public string? Description { get; private set; }
-		public IImmutableList<Chapter> Chapters { get; private set; }
+		public IList<Chapter> Chapters { get; private set; }
 
 		public Course(
 			Guid id,
@@ -24,12 +23,6 @@ namespace Course.Domain.Courses
 			Chapters = [];
 		}
 
-		public Course AddChapters(IImmutableList<Chapter> chapters)
-		{
-			Chapters.AddRange(chapters);
-			return this;
-		}
-
 		public Course Update(
 			string? description,
 			DateTime updatedTime)
@@ -37,6 +30,17 @@ namespace Course.Domain.Courses
 			Description = description;
 			UpdatedTime = updatedTime;
 
+			return this;
+		}
+
+		public Course AddChapter(Chapter chapters)
+		{
+			Chapters.Add(chapters);
+			return this;
+		}
+
+		public Course UpdateChapters(Chapter chapter)
+		{
 			return this;
 		}
 	}

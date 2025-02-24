@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using Course.Application.Contracts.Courses;
 using Course.Application.Contracts.Courses.Dto;
-using Course.Application.Contracts.Courses.Requests;
 using Shared.Application.Contracts.Contracts;
 using Shared.Application.Contracts.Contracts.Dto;
+using Course.EntityFrameworkCore.Courses;
+using Course.Application.Contracts.Courses.Commands;
+using System.Data;
 
 namespace Course.Application.Courses;
 
@@ -15,21 +17,25 @@ internal sealed class CourseService : ICourseService
 	private readonly IMapper _mapper;
 	private readonly IGuidGenerator _guidGenerator;
 	private readonly IClockService _clockService;
+	private readonly IUnitOfWork _unitOfWork;
+	
 	public CourseService(
 		ICourseRepository courseRepository,
 		IMapper mapper,
 		IGuidGenerator guidGenerator,
-		IClockService clockService)
+		IClockService clockService,
+		IUnitOfWork unitOfWork)
 	{
 		_courseRepository = courseRepository;
 		_mapper = mapper;
 		_guidGenerator = guidGenerator;
 		_clockService = clockService;
+		_unitOfWork = unitOfWork;
 	}
 
-	public async Task<Result<CourseDto>> CreateAsync(CreateCourseRequest request, CancellationToken cancellationToken)
+	public async Task<Result<CourseDto>> CreateAsync(CreateCourseCommand command, CancellationToken cancellationToken)
 	{
-		var isExist = await _courseRepository.CheckCourseForExistenceAsync(request.Title, cancellationToken);
+		var isExist = await _courseRepository.CheckCourseForExistenceAsync(command.Title, cancellationToken);
 
 		if (isExist)
 		{
@@ -38,15 +44,37 @@ internal sealed class CourseService : ICourseService
 
 		var course = new Course(
 			id: _guidGenerator.Create(),
-			title: request.Title,
+			title: command.Title,
 			creationTime: _clockService.Now(),
 			creatorId: _guidGenerator.Create(), // TODO: Mock, удалить при создании сервиса авторизации
-			description: request.Description);
+			description: command.Description);
 
-		await _courseRepository.InsertAsync(
-			entity: course,
-			autoSave: true,
-			cancellationToken: cancellationToken);
+		foreach (var item in command.Chapters)
+		{
+			var chapter = new Chapter(
+				id: _guidGenerator.Create(),
+				courseId: course.Id,
+				title: item.Title);
+
+			course.AddChapter(chapter);
+		}
+
+		try
+		{
+			await _unitOfWork.BeginTransaction(IsolationLevel.ReadCommitted, cancellationToken);
+
+			await _courseRepository.InsertAsync(
+				entity: course,
+				cancellationToken: cancellationToken);
+
+			await _unitOfWork.CommitAsync(cancellationToken);
+		}
+		catch (Exception ex)
+		{
+			// TODO: Добавить логирование.
+			await _unitOfWork.RollbackAsync(cancellationToken);
+			throw;
+		}
 
 		// TODO: откинуть событие об уведомлении о успешном создании курса.
 
@@ -65,7 +93,7 @@ internal sealed class CourseService : ICourseService
 
 		await _courseRepository.RemoveAsync(
 			entity: course,
-			autoSave: true, 
+			autoSave: true,
 			cancellationToken: cancellationToken);
 
 		return new Result();
@@ -84,7 +112,7 @@ internal sealed class CourseService : ICourseService
 			data: _mapper.Map<CourseDto>(course));
 	}
 
-	public async Task<Result<PagedResultDto<CourseListDto>>> GetListAsync(PagedListRequest request, CancellationToken cancellationToken)
+	public async Task<Result<PagedResultDto<CourseListDto>>> GetListAsync(PagedListCommand request, CancellationToken cancellationToken)
 	{
 		var pagedResult = await _courseRepository.GetPagedListAsync(
 			pageNumber: request.PageNumber,
@@ -102,7 +130,7 @@ internal sealed class CourseService : ICourseService
 		return new Result<PagedResultDto<CourseListDto>>(data: pagedResultDto);
 	}
 
-	public async Task<Result<CourseDto>> UpdateAsync(UpdateCourseRequest request, CancellationToken cancellationToken)
+	public async Task<Result<CourseDto>> UpdateAsync(UpdateCourseCommand request, CancellationToken cancellationToken)
 	{
 		var course = await _courseRepository.GetAsync(request.Id, cancellationToken);
 

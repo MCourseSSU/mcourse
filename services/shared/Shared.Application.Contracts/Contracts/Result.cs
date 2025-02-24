@@ -8,7 +8,6 @@
 			: base(null)
 		{
 			Data = data;
-
 		}
 
 		public Result(string? errorMessage)

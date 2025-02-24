@@ -20,7 +20,7 @@ namespace Course.EntityFrameworkCore.EntityFramework.Configurations
 			builder
 				.Property(x => x.Title)
 				.IsRequired()
-				.HasMaxLength(CourseConstants.MaxTitleLength);
+				.HasMaxLength(CourseConstants.MaxCourseTitleLength);
 			builder
 				.Property(x => x.Description)
 				.HasMaxLength(CourseConstants.MaxDescriptionLength);
