@@ -20,10 +20,16 @@ namespace Course.EntityFrameworkCore.EntityFramework.Configurations
 			builder
 				.Property(x => x.Title)
 				.IsRequired()
-				.HasMaxLength(CourseConstants.MaxTitleLength);
+				.HasMaxLength(CourseConstants.MaxCourseTitleLength);
 			builder
 				.Property(x => x.Description)
 				.HasMaxLength(CourseConstants.MaxDescriptionLength);
+
+			builder
+				.HasMany(x => x.Chapters)
+				.WithOne()
+				.HasForeignKey(x => x.CourseId)
+				.OnDelete(DeleteBehavior.Cascade);
 		}
 	}
 }

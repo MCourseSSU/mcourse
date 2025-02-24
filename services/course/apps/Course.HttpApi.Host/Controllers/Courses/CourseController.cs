@@ -1,10 +1,11 @@
 ﻿using Course.Application.Contracts.Courses;
+using Course.Application.Contracts.Courses.Commands;
 using Course.Application.Contracts.Courses.Dto;
-using Course.Application.Contracts.Courses.Requests;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Shared.Application.Contracts.Contracts;
 using Shared.Application.Contracts.Contracts.Dto;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Course.HttpApi.Host.Controllers.Courses
 {
@@ -13,15 +14,15 @@ namespace Course.HttpApi.Host.Controllers.Courses
 	public sealed class CourseController : ControllerBase
 	{
 		private readonly ICourseService _courseService;
-		private readonly IValidator<PagedListRequest> _pagedListRequestValidator;
-		private readonly IValidator<CreateCourseRequest> _createCourseRequestValidator;
-		private readonly IValidator<UpdateCourseRequest> _updateCourseRequestValidator;
+		private readonly IValidator<PagedListCommand> _pagedListRequestValidator;
+		private readonly IValidator<CreateCourseCommand> _createCourseRequestValidator;
+		private readonly IValidator<UpdateCourseCommand> _updateCourseRequestValidator;
 
 		public CourseController(
 			ICourseService courseService,
-			IValidator<PagedListRequest> pagedListRequestValidator,
-			IValidator<CreateCourseRequest> createCourseRequestValidator,
-			IValidator<UpdateCourseRequest> updateCourseRequestValidator)
+			IValidator<PagedListCommand> pagedListRequestValidator,
+			IValidator<CreateCourseCommand> createCourseRequestValidator,
+			IValidator<UpdateCourseCommand> updateCourseRequestValidator)
 		{
 			_courseService = courseService;
 			_pagedListRequestValidator = pagedListRequestValidator;
@@ -31,11 +32,11 @@ namespace Course.HttpApi.Host.Controllers.Courses
 
 		[HttpPost]
 		public async Task<ActionResult<Result<CourseDto>>> CreateAsync(
-			[FromBody] CreateCourseRequest request,
+			[FromBody] CreateCourseCommand command,
 			CancellationToken cancellationToken)
 		{
-			await _createCourseRequestValidator.ValidateAndThrowAsync(request, cancellationToken);
-			return await _courseService.CreateAsync(request, cancellationToken);
+			await _createCourseRequestValidator.ValidateAndThrowAsync(command, cancellationToken);
+			return await _courseService.CreateAsync(command, cancellationToken);
 		}
 
 		[HttpGet("{id:guid}")]
@@ -48,7 +49,7 @@ namespace Course.HttpApi.Host.Controllers.Courses
 
 		[HttpGet("List")]
 		public async Task<ActionResult<Result<PagedResultDto<CourseListDto>>>> GetListAsync(
-			[FromQuery] PagedListRequest request,
+			[FromQuery] PagedListCommand request,
 			CancellationToken cancellationToken)
 		{
 			await _pagedListRequestValidator.ValidateAndThrowAsync(request, cancellationToken);
@@ -57,7 +58,7 @@ namespace Course.HttpApi.Host.Controllers.Courses
 
 		[HttpPut]
 		public async Task<ActionResult<Result<CourseDto>>> UpdateAsync(
-			[FromBody] UpdateCourseRequest request,
+			[FromBody] UpdateCourseCommand request,
 			CancellationToken cancellationToken)
 		{
 			await _updateCourseRequestValidator.ValidateAndThrowAsync(request, cancellationToken);

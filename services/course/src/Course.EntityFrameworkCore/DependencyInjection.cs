@@ -23,6 +23,7 @@ namespace Course.EntityFrameworkCore
 		private static void AddRepository(IServiceCollection services)
 		{
 			services.AddScoped<ICourseRepository, CourseRepository>();
+			services.AddScoped<IUnitOfWork, UnitOfWork>();
 		}
 	}
 }

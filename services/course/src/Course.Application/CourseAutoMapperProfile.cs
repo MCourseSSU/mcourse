@@ -11,5 +11,6 @@ public sealed class CourseAutoMapperProfile : Profile
 	{
 		CreateMap<Course, CourseListDto>();
 		CreateMap<Course, CourseDto>();
+		CreateMap<Chapter, ChapterDto>();
 	}
 }
