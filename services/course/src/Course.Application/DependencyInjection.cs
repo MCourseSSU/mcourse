@@ -1,5 +1,6 @@
 ﻿using Course.Application.Contracts.Courses;
 using Course.Application.Contracts.Courses.Commands;
+using Course.Application.Contracts.Courses.Queries;
 using Course.Application.Courses;
 using Course.EntityFrameworkCore;
 using FluentValidation;
@@ -33,7 +34,7 @@ public static class DependencyInjection
 	{
 		services.AddFluentValidationAutoValidation();
 
-		services.AddScoped<IValidator<PagedListCommand>, PageListRequestValidator>();
+		services.AddScoped<IValidator<PagedListQuery>, PageListRequestValidator>();
 		services.AddScoped<IValidator<CreateCourseCommand>, CreateCourseCommandValidator>();
 		services.AddScoped<IValidator<UpdateCourseCommand>, UpdateCourseRequestValidator>();
 	}

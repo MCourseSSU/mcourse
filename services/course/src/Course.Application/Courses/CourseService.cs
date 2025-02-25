@@ -9,6 +9,7 @@ using System.Data;
 
 namespace Course.Application.Courses;
 
+using Course.Application.Contracts.Courses.Queries;
 using Course.Domain.Courses;
 
 internal sealed class CourseService : ICourseService
@@ -59,22 +60,10 @@ internal sealed class CourseService : ICourseService
 			course.AddChapter(chapter);
 		}
 
-		try
-		{
-			await _unitOfWork.BeginTransaction(IsolationLevel.ReadCommitted, cancellationToken);
-
-			await _courseRepository.InsertAsync(
-				entity: course,
-				cancellationToken: cancellationToken);
-
-			await _unitOfWork.CommitAsync(cancellationToken);
-		}
-		catch (Exception ex)
-		{
-			// TODO: Добавить логирование.
-			await _unitOfWork.RollbackAsync(cancellationToken);
-			throw;
-		}
+		await _courseRepository.InsertAsync(
+			entity: course,
+			autoSave: true,
+			cancellationToken: cancellationToken);
 
 		// TODO: откинуть событие об уведомлении о успешном создании курса.
 
@@ -112,7 +101,7 @@ internal sealed class CourseService : ICourseService
 			data: _mapper.Map<CourseDto>(course));
 	}
 
-	public async Task<Result<PagedResultDto<CourseListDto>>> GetListAsync(PagedListCommand request, CancellationToken cancellationToken)
+	public async Task<Result<PagedResultDto<CourseListDto>>> GetListAsync(PagedListQuery request, CancellationToken cancellationToken)
 	{
 		var pagedResult = await _courseRepository.GetPagedListAsync(
 			pageNumber: request.PageNumber,

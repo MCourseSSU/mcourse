@@ -13,6 +13,9 @@ services:
       - MSSQL_PID=Express
     volumes:
       - ../volumes/mssql/mcourse:/src/mssql
+
+volumes:
+  mcourse:
 #  minio:
 #    image: minio/minio:latest
 #    command: server --console-address ":9001" /data/

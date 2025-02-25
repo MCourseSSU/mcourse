@@ -1,26 +1,26 @@
 ﻿using Course.Application.Contracts.Courses;
 using Course.Application.Contracts.Courses.Commands;
 using Course.Application.Contracts.Courses.Dto;
+using Course.Application.Contracts.Courses.Queries;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Shared.Application.Contracts.Contracts;
 using Shared.Application.Contracts.Contracts.Dto;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Course.HttpApi.Host.Controllers.Courses
 {
-	[ApiController]
+    [ApiController]
 	[Route("api/[controller]")]
 	public sealed class CourseController : ControllerBase
 	{
 		private readonly ICourseService _courseService;
-		private readonly IValidator<PagedListCommand> _pagedListRequestValidator;
+		private readonly IValidator<PagedListQuery> _pagedListRequestValidator;
 		private readonly IValidator<CreateCourseCommand> _createCourseRequestValidator;
 		private readonly IValidator<UpdateCourseCommand> _updateCourseRequestValidator;
 
 		public CourseController(
 			ICourseService courseService,
-			IValidator<PagedListCommand> pagedListRequestValidator,
+			IValidator<PagedListQuery> pagedListRequestValidator,
 			IValidator<CreateCourseCommand> createCourseRequestValidator,
 			IValidator<UpdateCourseCommand> updateCourseRequestValidator)
 		{
@@ -49,7 +49,7 @@ namespace Course.HttpApi.Host.Controllers.Courses
 
 		[HttpGet("List")]
 		public async Task<ActionResult<Result<PagedResultDto<CourseListDto>>>> GetListAsync(
-			[FromQuery] PagedListCommand request,
+			[FromQuery] PagedListQuery request,
 			CancellationToken cancellationToken)
 		{
 			await _pagedListRequestValidator.ValidateAndThrowAsync(request, cancellationToken);
