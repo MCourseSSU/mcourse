@@ -1,12 +1,15 @@
 ﻿using AutoMapper;
 using Course.Application.Contracts.Courses;
 using Course.Application.Contracts.Courses.Dto;
-using Course.Application.Contracts.Courses.Requests;
 using Shared.Application.Contracts.Contracts;
 using Shared.Application.Contracts.Contracts.Dto;
+using Course.EntityFrameworkCore.Courses;
+using Course.Application.Contracts.Courses.Commands;
+using System.Data;
 
 namespace Course.Application.Courses;
 
+using Course.Application.Contracts.Courses.Queries;
 using Course.Domain.Courses;
 
 internal sealed class CourseService : ICourseService
@@ -14,30 +17,48 @@ internal sealed class CourseService : ICourseService
 	private readonly ICourseRepository _courseRepository;
 	private readonly IMapper _mapper;
 	private readonly IGuidGenerator _guidGenerator;
-
+	private readonly IClockService _clockService;
+	private readonly IUnitOfWork _unitOfWork;
+	
 	public CourseService(
 		ICourseRepository courseRepository,
 		IMapper mapper,
-		IGuidGenerator guidGenerator)
+		IGuidGenerator guidGenerator,
+		IClockService clockService,
+		IUnitOfWork unitOfWork)
 	{
 		_courseRepository = courseRepository;
 		_mapper = mapper;
 		_guidGenerator = guidGenerator;
+		_clockService = clockService;
+		_unitOfWork = unitOfWork;
 	}
 
-	public async Task<Result<CourseDto>> CreateAsync(CreateCourseRequest request, CancellationToken cancellationToken)
+	public async Task<Result<CourseDto>> CreateAsync(CreateCourseCommand command, CancellationToken cancellationToken)
 	{
-		var isExist = await _courseRepository.CheckCourseForExistenceAsync(request.Title, cancellationToken);
+		var isExist = await _courseRepository.CheckCourseForExistenceAsync(command.Title, cancellationToken);
 
 		if (isExist)
 		{
-			return new Result<CourseDto>(errorMessage: $"Данный курс уже зарегистрирован");
+			return new Result<CourseDto>(errorMessage: $"Курс с таким названием уже существует");
 		}
 
 		var course = new Course(
 			id: _guidGenerator.Create(),
-			title: request.Title,
-			description: request.Description);
+			title: command.Title,
+			creationTime: _clockService.Now(),
+			creatorId: _guidGenerator.Create(), // TODO: Mock, удалить при создании сервиса авторизации
+			description: command.Description);
+
+		foreach (var item in command.Chapters)
+		{
+			var chapter = new Chapter(
+				id: _guidGenerator.Create(),
+				courseId: course.Id,
+				title: item.Title);
+
+			course.AddChapter(chapter);
+		}
 
 		await _courseRepository.InsertAsync(
 			entity: course,
@@ -61,7 +82,7 @@ internal sealed class CourseService : ICourseService
 
 		await _courseRepository.RemoveAsync(
 			entity: course,
-			autoSave: true, 
+			autoSave: true,
 			cancellationToken: cancellationToken);
 
 		return new Result();
@@ -78,10 +99,9 @@ internal sealed class CourseService : ICourseService
 
 		return new Result<CourseDto>(
 			data: _mapper.Map<CourseDto>(course));
-
 	}
 
-	public async Task<Result<PagedResultDto<CourseListDto>>> GetListAsync(PagedListRequest request, CancellationToken cancellationToken)
+	public async Task<Result<PagedResultDto<CourseListDto>>> GetListAsync(PagedListQuery request, CancellationToken cancellationToken)
 	{
 		var pagedResult = await _courseRepository.GetPagedListAsync(
 			pageNumber: request.PageNumber,
@@ -99,7 +119,7 @@ internal sealed class CourseService : ICourseService
 		return new Result<PagedResultDto<CourseListDto>>(data: pagedResultDto);
 	}
 
-	public async Task<Result<CourseDto>> UpdateAsync(UpdateCourseRequest request, CancellationToken cancellationToken)
+	public async Task<Result<CourseDto>> UpdateAsync(UpdateCourseCommand request, CancellationToken cancellationToken)
 	{
 		var course = await _courseRepository.GetAsync(request.Id, cancellationToken);
 
@@ -109,7 +129,8 @@ internal sealed class CourseService : ICourseService
 		}
 
 		course.Update(
-			description: request.Description);
+			description: request.Description,
+			updatedTime: _clockService.Now());
 
 		await _courseRepository.UpdateAsync(
 			entity: course,

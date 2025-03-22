@@ -9,6 +9,7 @@ namespace Shared.Application
 		public static IServiceCollection AddSharedApplication(this IServiceCollection services)
 		{
 			services.AddScoped<IGuidGenerator, GuidGenerator>();
+			services.AddScoped<IClockService, ClockService>();
 
 			return services;
 		}
