@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="AutoMapper" Version="13.0.1" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\..\shared\Shared.Application\Shared.Application.csproj" />
+		<ProjectReference Include="..\Calendar.Application.Contracts\Calendar.Application.Contracts.csproj" />
+		<ProjectReference Include="..\Calendar.EntityFrameworkCore\Calendar.EntityFrameworkCore.csproj" />
+	</ItemGroup>
+
+</Project>
