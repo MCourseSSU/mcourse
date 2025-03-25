@@ -12,7 +12,7 @@ services:
       - SA_PASSWORD=Secret1_
       - MSSQL_PID=Express
     volumes:
-      - ../volumes/mssql/wallone:/src/mssql
+      - ../volumes/mssql/data:/src/mssql/mcourse
 #  minio:
 #    image: minio/minio:latest
 #    command: server --console-address ":9001" /data/
